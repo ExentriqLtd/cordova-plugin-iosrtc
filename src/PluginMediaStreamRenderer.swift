@@ -158,7 +158,7 @@ class PluginMediaStreamRenderer : NSObject, RTCEAGLVideoViewDelegate {
 
 		self.elementView.frame = CGRectMake(
 			CGFloat(elementLeft),
-			CGFloat(elementTop),
+			CGFloat(elementTop + 20),
 			CGFloat(elementWidth),
 			CGFloat(elementHeight)
 		)
