@@ -637,6 +637,7 @@ class iosrtcPlugin : CDVPlugin {
 
 		dispatch_async(self.queue) { [weak pluginMediaStream, weak pluginMediaStreamTrack] in
 			pluginMediaStream?.removeTrack(pluginMediaStreamTrack!)
+			self.pluginMediaStreamTracks[trackId] = nil
 		}
 	}
 
