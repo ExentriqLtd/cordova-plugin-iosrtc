@@ -653,7 +653,9 @@ class iosrtcPlugin : CDVPlugin {
 			return;
 		}
 
-		self.pluginMediaStreams[id] = nil
+        dispatch_async(self.queue) {
+        	self.pluginMediaStreams[id] = nil
+        }
 	}
 
 
