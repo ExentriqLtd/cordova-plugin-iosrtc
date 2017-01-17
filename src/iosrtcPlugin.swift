@@ -856,25 +856,43 @@ class iosrtcPlugin : CDVPlugin {
 
 
 	func selectAudioOutputEarpiece(command: CDVInvokedUrlCommand) {
-		NSLog("iosrtcPlugin#selectAudioOutputEarpiece()")
+    		NSLog("iosrtcPlugin#selectAudioOutputEarpiece()")
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+            } catch {
+                NSLog("iosrtcPlugin#selectAudioOutputEarpiece() | ERROR: %@", String(error))
+            }
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                NSLog("iosrtcPlugin#selectAudioOutputEarpiece() | ERROR: %@", String(error))
+            }
+            do {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.None)
+            } catch {
+                NSLog("iosrtcPlugin#selectAudioOutputEarpiece() | ERROR: %@", String(error))
+            }
+    	}
 
-		do {
-			try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.None)
-		} catch {
-			NSLog("iosrtcPlugin#selectAudioOutputEarpiece() | ERROR: %@", String(error))
-		};
-	}
 
-
-	func selectAudioOutputSpeaker(command: CDVInvokedUrlCommand) {
-		NSLog("iosrtcPlugin#selectAudioOutputSpeaker()")
-
-		do {
-			try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
-		} catch {
-			NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
-		};
-	}
+    	func selectAudioOutputSpeaker(command: CDVInvokedUrlCommand) {
+    		NSLog("iosrtcPlugin#selectAudioOutputSpeaker()")
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+            } catch {
+                NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
+            }
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
+            }
+            do {
+                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+            } catch {
+                NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
+            }
+    	}
 
 
 	func dump(command: CDVInvokedUrlCommand) {
