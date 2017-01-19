@@ -856,6 +856,7 @@ class iosrtcPlugin : CDVPlugin {
 
 
 	func selectAudioOutputEarpiece(command: CDVInvokedUrlCommand) {
+		dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
     		NSLog("iosrtcPlugin#selectAudioOutputEarpiece()")
             do {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -873,25 +874,28 @@ class iosrtcPlugin : CDVPlugin {
                 NSLog("iosrtcPlugin#selectAudioOutputEarpiece() | ERROR: %@", String(error))
             }
     	}
+	}
 
 
     	func selectAudioOutputSpeaker(command: CDVInvokedUrlCommand) {
-    		NSLog("iosrtcPlugin#selectAudioOutputSpeaker()")
-            do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
-            } catch {
-                NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
-            }
-            do {
-                try AVAudioSession.sharedInstance().setActive(true)
-            } catch {
-                NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
-            }
-            do {
-                try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
-            } catch {
-                NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
-            }
+			dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+				NSLog("iosrtcPlugin#selectAudioOutputSpeaker()")
+				do {
+					try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+				} catch {
+					NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
+				}
+				do {
+					try AVAudioSession.sharedInstance().setActive(true)
+				} catch {
+					NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
+				}
+				do {
+					try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+				} catch {
+					NSLog("iosrtcPlugin#selectAudioOutputSpeaker() | ERROR: %@", String(error))
+				}
+			}
     	}
 
 
