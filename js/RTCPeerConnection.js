@@ -785,7 +785,7 @@ function onEvent(data) {
 			event.stream = stream;
 
 			// Append to the remote streams.
-			this.remoteStreams[stream.id] = stream;
+			this.remoteStreams[stream.label] = stream;
 
 			// Emit "connected" on the stream if ICE connected.
 			if (this.iceConnectionState === 'connected' || this.iceConnectionState === 'completed') {
@@ -798,7 +798,7 @@ function onEvent(data) {
 			event.stream = stream;
 
 			// Remove from the remote streams.
-			delete this.remoteStreams[stream.id];
+			delete this.remoteStreams[data.streamId];
 			break;
 
 		case 'datachannel':
