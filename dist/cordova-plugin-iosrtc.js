@@ -1,11 +1,12 @@
 /*
- * cordova-plugin-iosrtc v3.2.2
+ * cordova-plugin-iosrtc v4.0.0
  * Cordova iOS plugin exposing the full WebRTC W3C JavaScript APIs
- * Copyright 2015-2017 Iñaki Baz Castillo at eFace2Face, inc. (https://eface2face.com)
+ * Copyright 2015-2017 eFace2Face, Inc. (https://eface2face.com)
+ * Copyright 2017 BasqueVoIPMafia (https://github.com/BasqueVoIPMafia)
  * License MIT
  */
 
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.iosrtc = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.iosrtc = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 /**
  * Expose an object with WebRTC Errors.
  */
@@ -49,7 +50,7 @@ function addError(name) {
 	Errors[name].prototype = new IntermediateInheritor();
 }
 
-},{}],2:[function(require,module,exports){
+},{}],2:[function(_dereq_,module,exports){
 /**
  * Expose the MediaDeviceInfo class.
  */
@@ -84,7 +85,7 @@ function MediaDeviceInfo(data) {
 	});
 }
 
-},{}],3:[function(require,module,exports){
+},{}],3:[function(_dereq_,module,exports){
 /**
  * Expose the MediaStream class.
  * Make MediaStream be a Blob so it can be consumed by URL.createObjectURL().
@@ -100,10 +101,10 @@ var MediaStream = module.exports = window.Blob,
 /**
  * Dependencies.
  */
-	debug = require('debug')('iosrtc:MediaStream'),
-	exec = require('cordova/exec'),
-	EventTarget = require('yaeti').EventTarget,
-	MediaStreamTrack = require('./MediaStreamTrack'),
+	debug = _dereq_('debug')('iosrtc:MediaStream'),
+	exec = _dereq_('cordova/exec'),
+	EventTarget = _dereq_('yaeti').EventTarget,
+	MediaStreamTrack = _dereq_('./MediaStreamTrack'),
 
 
 /**
@@ -187,6 +188,10 @@ MediaStream.create = function (dataFromEvent) {
 	return stream;
 };
 
+
+MediaStream.prototype.getBlobId = function () {
+	return this._blobId;
+};
 
 MediaStream.prototype.getAudioTracks = function () {
 	debug('getAudioTracks()');
@@ -461,7 +466,7 @@ function onEvent(data) {
 	}
 }
 
-},{"./MediaStreamTrack":5,"cordova/exec":undefined,"debug":20,"yaeti":24}],4:[function(require,module,exports){
+},{"./MediaStreamTrack":5,"cordova/exec":undefined,"debug":19,"yaeti":23}],4:[function(_dereq_,module,exports){
 /**
  * Expose the MediaStreamRenderer class.
  */
@@ -472,11 +477,11 @@ module.exports = MediaStreamRenderer;
  * Dependencies.
  */
 var
-	debug = require('debug')('iosrtc:MediaStreamRenderer'),
-	exec = require('cordova/exec'),
-	randomNumber = require('random-number').generator({min: 10000, max: 99999, integer: true}),
-	EventTarget = require('yaeti').EventTarget,
-	MediaStream = require('./MediaStream');
+	debug = _dereq_('debug')('iosrtc:MediaStreamRenderer'),
+	exec = _dereq_('cordova/exec'),
+	randomNumber = _dereq_('random-number').generator({min: 10000, max: 99999, integer: true}),
+	EventTarget = _dereq_('yaeti').EventTarget,
+	MediaStream = _dereq_('./MediaStream');
 
 
 function MediaStreamRenderer(element) {
@@ -813,7 +818,7 @@ function getElementPositionAndSize() {
 	};
 }
 
-},{"./MediaStream":3,"cordova/exec":undefined,"debug":20,"random-number":23,"yaeti":24}],5:[function(require,module,exports){
+},{"./MediaStream":3,"cordova/exec":undefined,"debug":19,"random-number":22,"yaeti":23}],5:[function(_dereq_,module,exports){
 /**
  * Expose the MediaStreamTrack class.
  */
@@ -829,10 +834,10 @@ module.exports = MediaStreamTrack;
  * Dependencies.
  */
 var
-	debug = require('debug')('iosrtc:MediaStreamTrack'),
-	exec = require('cordova/exec'),
-	enumerateDevices = require('./enumerateDevices'),
-	EventTarget = require('yaeti').EventTarget;
+	debug = _dereq_('debug')('iosrtc:MediaStreamTrack'),
+	exec = _dereq_('cordova/exec'),
+	enumerateDevices = _dereq_('./enumerateDevices'),
+	EventTarget = _dereq_('yaeti').EventTarget;
 
 
 function MediaStreamTrack(dataFromEvent) {
@@ -933,7 +938,7 @@ function onEvent(data) {
 	}
 }
 
-},{"./enumerateDevices":13,"cordova/exec":undefined,"debug":20,"yaeti":24}],6:[function(require,module,exports){
+},{"./enumerateDevices":13,"cordova/exec":undefined,"debug":19,"yaeti":23}],6:[function(_dereq_,module,exports){
 /**
  * Expose the RTCDTMFSender class.
  */
@@ -944,11 +949,11 @@ module.exports = RTCDTMFSender;
  * Dependencies.
  */
 var
-	debug = require('debug')('iosrtc:RTCDTMFSender'),
-	debugerror = require('debug')('iosrtc:ERROR:RTCDTMFSender'),
-	exec = require('cordova/exec'),
-	randomNumber = require('random-number').generator({min: 10000, max: 99999, integer: true}),
-	EventTarget = require('yaeti').EventTarget;
+	debug = _dereq_('debug')('iosrtc:RTCDTMFSender'),
+	debugerror = _dereq_('debug')('iosrtc:ERROR:RTCDTMFSender'),
+	exec = _dereq_('cordova/exec'),
+	randomNumber = _dereq_('random-number').generator({min: 10000, max: 99999, integer: true}),
+	EventTarget = _dereq_('yaeti').EventTarget;
 
 
 debugerror.log = console.warn.bind(console);
@@ -1065,7 +1070,7 @@ function onEvent(data) {
 	}
 }
 
-},{"cordova/exec":undefined,"debug":20,"random-number":23,"yaeti":24}],7:[function(require,module,exports){
+},{"cordova/exec":undefined,"debug":19,"random-number":22,"yaeti":23}],7:[function(_dereq_,module,exports){
 /**
  * Expose the RTCDataChannel class.
  */
@@ -1076,11 +1081,11 @@ module.exports = RTCDataChannel;
  * Dependencies.
  */
 var
-	debug = require('debug')('iosrtc:RTCDataChannel'),
-	debugerror = require('debug')('iosrtc:ERROR:RTCDataChannel'),
-	exec = require('cordova/exec'),
-	randomNumber = require('random-number').generator({min: 10000, max: 99999, integer: true}),
-	EventTarget = require('yaeti').EventTarget;
+	debug = _dereq_('debug')('iosrtc:RTCDataChannel'),
+	debugerror = _dereq_('debug')('iosrtc:ERROR:RTCDataChannel'),
+	exec = _dereq_('cordova/exec'),
+	randomNumber = _dereq_('random-number').generator({min: 10000, max: 99999, integer: true}),
+	EventTarget = _dereq_('yaeti').EventTarget;
 
 
 debugerror.log = console.warn.bind(console);
@@ -1296,7 +1301,7 @@ function onEvent(data) {
 	}
 }
 
-},{"cordova/exec":undefined,"debug":20,"random-number":23,"yaeti":24}],8:[function(require,module,exports){
+},{"cordova/exec":undefined,"debug":19,"random-number":22,"yaeti":23}],8:[function(_dereq_,module,exports){
 /**
  * Expose the RTCIceCandidate class.
  */
@@ -1312,7 +1317,7 @@ function RTCIceCandidate(data) {
 	this.candidate = data.candidate;
 }
 
-},{}],9:[function(require,module,exports){
+},{}],9:[function(_dereq_,module,exports){
 (function (global){
 /**
  * Expose the RTCPeerConnection class.
@@ -1324,20 +1329,20 @@ module.exports = RTCPeerConnection;
  * Dependencies.
  */
 var
-	debug = require('debug')('iosrtc:RTCPeerConnection'),
-	debugerror = require('debug')('iosrtc:ERROR:RTCPeerConnection'),
-	exec = require('cordova/exec'),
-	randomNumber = require('random-number').generator({min: 10000, max: 99999, integer: true}),
-	EventTarget = require('yaeti').EventTarget,
-	RTCSessionDescription = require('./RTCSessionDescription'),
-	RTCIceCandidate = require('./RTCIceCandidate'),
-	RTCDataChannel = require('./RTCDataChannel'),
-	RTCDTMFSender = require('./RTCDTMFSender'),
-	RTCStatsResponse = require('./RTCStatsResponse'),
-	RTCStatsReport = require('./RTCStatsReport'),
-	MediaStream = require('./MediaStream'),
-	MediaStreamTrack = require('./MediaStreamTrack'),
-	Errors = require('./Errors');
+	debug = _dereq_('debug')('iosrtc:RTCPeerConnection'),
+	debugerror = _dereq_('debug')('iosrtc:ERROR:RTCPeerConnection'),
+	exec = _dereq_('cordova/exec'),
+	randomNumber = _dereq_('random-number').generator({min: 10000, max: 99999, integer: true}),
+	EventTarget = _dereq_('yaeti').EventTarget,
+	RTCSessionDescription = _dereq_('./RTCSessionDescription'),
+	RTCIceCandidate = _dereq_('./RTCIceCandidate'),
+	RTCDataChannel = _dereq_('./RTCDataChannel'),
+	RTCDTMFSender = _dereq_('./RTCDTMFSender'),
+	RTCStatsResponse = _dereq_('./RTCStatsResponse'),
+	RTCStatsReport = _dereq_('./RTCStatsReport'),
+	MediaStream = _dereq_('./MediaStream'),
+	MediaStreamTrack = _dereq_('./MediaStreamTrack'),
+	Errors = _dereq_('./Errors');
 
 
 debugerror.log = console.warn.bind(console);
@@ -2127,7 +2132,7 @@ function onEvent(data) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./Errors":1,"./MediaStream":3,"./MediaStreamTrack":5,"./RTCDTMFSender":6,"./RTCDataChannel":7,"./RTCIceCandidate":8,"./RTCSessionDescription":10,"./RTCStatsReport":11,"./RTCStatsResponse":12,"cordova/exec":undefined,"debug":20,"random-number":23,"yaeti":24}],10:[function(require,module,exports){
+},{"./Errors":1,"./MediaStream":3,"./MediaStreamTrack":5,"./RTCDTMFSender":6,"./RTCDataChannel":7,"./RTCIceCandidate":8,"./RTCSessionDescription":10,"./RTCStatsReport":11,"./RTCStatsResponse":12,"cordova/exec":undefined,"debug":19,"random-number":22,"yaeti":23}],10:[function(_dereq_,module,exports){
 /**
  * Expose the RTCSessionDescription class.
  */
@@ -2142,7 +2147,7 @@ function RTCSessionDescription(data) {
 	this.sdp = data.sdp;
 }
 
-},{}],11:[function(require,module,exports){
+},{}],11:[function(_dereq_,module,exports){
 /**
  * Expose the RTCStatsReport class.
  */
@@ -2164,7 +2169,7 @@ function RTCStatsReport(data) {
 	};
 }
 
-},{}],12:[function(require,module,exports){
+},{}],12:[function(_dereq_,module,exports){
 /**
  * Expose the RTCStatsResponse class.
  */
@@ -2182,7 +2187,7 @@ function RTCStatsResponse(data) {
 	};
 }
 
-},{}],13:[function(require,module,exports){
+},{}],13:[function(_dereq_,module,exports){
 /**
  * Expose the enumerateDevices function.
  */
@@ -2193,9 +2198,9 @@ module.exports = enumerateDevices;
  * Dependencies.
  */
 var
-	debug = require('debug')('iosrtc:enumerateDevices'),
-	exec = require('cordova/exec'),
-	MediaDeviceInfo = require('./MediaDeviceInfo');
+	debug = _dereq_('debug')('iosrtc:enumerateDevices'),
+	exec = _dereq_('cordova/exec'),
+	MediaDeviceInfo = _dereq_('./MediaDeviceInfo');
 
 
 function enumerateDevices() {
@@ -2251,7 +2256,7 @@ function getMediaDeviceInfos(devices) {
 	return mediaDeviceInfos;
 }
 
-},{"./MediaDeviceInfo":2,"cordova/exec":undefined,"debug":20}],14:[function(require,module,exports){
+},{"./MediaDeviceInfo":2,"cordova/exec":undefined,"debug":19}],14:[function(_dereq_,module,exports){
 /**
  * Expose the getUserMedia function.
  */
@@ -2262,11 +2267,11 @@ module.exports = getUserMedia;
  * Dependencies.
  */
 var
-	debug = require('debug')('iosrtc:getUserMedia'),
-	debugerror = require('debug')('iosrtc:ERROR:getUserMedia'),
-	exec = require('cordova/exec'),
-	MediaStream = require('./MediaStream'),
-	Errors = require('./Errors');
+	debug = _dereq_('debug')('iosrtc:getUserMedia'),
+	debugerror = _dereq_('debug')('iosrtc:ERROR:getUserMedia'),
+	exec = _dereq_('cordova/exec'),
+	MediaStream = _dereq_('./MediaStream'),
+	Errors = _dereq_('./Errors');
 
 debugerror.log = console.warn.bind(console);
 
@@ -2425,7 +2430,7 @@ function getUserMedia(constraints) {
 	exec(onResultOK, onResultError, 'iosrtcPlugin', 'getUserMedia', [newConstraints]);
 }
 
-},{"./Errors":1,"./MediaStream":3,"cordova/exec":undefined,"debug":20}],15:[function(require,module,exports){
+},{"./Errors":1,"./MediaStream":3,"cordova/exec":undefined,"debug":19}],15:[function(_dereq_,module,exports){
 (function (global){
 /**
  * Variables.
@@ -2446,19 +2451,18 @@ var
 /**
  * Dependencies.
  */
-	debug                  = require('debug')('iosrtc'),
-	exec                   = require('cordova/exec'),
-	domready               = require('domready'),
+	debug                  = _dereq_('debug')('iosrtc'),
+	exec                   = _dereq_('cordova/exec'),
+	domready               = _dereq_('domready'),
 
-	getUserMedia           = require('./getUserMedia'),
-	enumerateDevices       = require('./enumerateDevices'),
-	RTCPeerConnection      = require('./RTCPeerConnection'),
-	RTCSessionDescription  = require('./RTCSessionDescription'),
-	RTCIceCandidate        = require('./RTCIceCandidate'),
-	MediaStream            = require('./MediaStream'),
-	MediaStreamTrack       = require('./MediaStreamTrack'),
-	videoElementsHandler   = require('./videoElementsHandler'),
-	rtcninjaPlugin         = require('./rtcninjaPlugin');
+	getUserMedia           = _dereq_('./getUserMedia'),
+	enumerateDevices       = _dereq_('./enumerateDevices'),
+	RTCPeerConnection      = _dereq_('./RTCPeerConnection'),
+	RTCSessionDescription  = _dereq_('./RTCSessionDescription'),
+	RTCIceCandidate        = _dereq_('./RTCIceCandidate'),
+	MediaStream            = _dereq_('./MediaStream'),
+	MediaStreamTrack       = _dereq_('./MediaStreamTrack'),
+	videoElementsHandler   = _dereq_('./videoElementsHandler');
 
 
 /**
@@ -2481,17 +2485,11 @@ module.exports = {
 	// Expose a function to handle a video not yet inserted in the DOM.
 	observeVideo:          videoElementsHandler.observeVideo,
 
-	// Select audio output (earpiece or speaker).
-	selectAudioOutput:     selectAudioOutput,
-
 	// Expose a function to pollute window and naigator namespaces.
 	registerGlobals:       registerGlobals,
 
-	// Expose the rtcninjaPlugin module.
-	rtcninjaPlugin:        rtcninjaPlugin,
-
 	// Expose the debug module.
-	debug:                 require('debug'),
+	debug:                 _dereq_('debug'),
 
 	// Debug function to see what happens internally.
 	dump:                  dump
@@ -2518,23 +2516,9 @@ function refreshVideos() {
 }
 
 
-function selectAudioOutput(output) {
-	debug('selectAudioOutput() | [output:"%s"]', output);
-
-	switch (output) {
-		case 'earpiece':
-			exec(null, null, 'iosrtcPlugin', 'selectAudioOutputEarpiece', []);
-			break;
-		case 'speaker':
-			exec(null, null, 'iosrtcPlugin', 'selectAudioOutputSpeaker', []);
-			break;
-		default:
-			throw new Error('output must be "earpiece" or "speaker"');
-	}
-}
-
-
 function registerGlobals() {
+	debug('registerGlobals()');
+
 	if (!global.navigator) {
 		global.navigator = {};
 	}
@@ -2562,39 +2546,7 @@ function dump() {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./MediaStream":3,"./MediaStreamTrack":5,"./RTCIceCandidate":8,"./RTCPeerConnection":9,"./RTCSessionDescription":10,"./enumerateDevices":13,"./getUserMedia":14,"./rtcninjaPlugin":16,"./videoElementsHandler":17,"cordova/exec":undefined,"debug":20,"domready":22}],16:[function(require,module,exports){
-/**
- * Expose the rtcninjaPlugin object.
- */
-module.exports = {
-	isRequired: function () {
-		return true;
-	},
-
-	isInstalled: function () {
-		return true;
-	},
-
-	interface: {
-		getUserMedia:          require('./getUserMedia'),
-		enumerateDevices:      require('./enumerateDevices'),
-		getMediaDevices:       require('./enumerateDevices'),  // TMP
-		RTCPeerConnection:     require('./RTCPeerConnection'),
-		RTCSessionDescription: require('./RTCSessionDescription'),
-		RTCIceCandidate:       require('./RTCIceCandidate'),
-		MediaStreamTrack:      require('./MediaStreamTrack'),
-		attachMediaStream:     attachMediaStream,
-		canRenegotiate:        true
-	}
-};
-
-
-function attachMediaStream(element, stream) {
-	element.src = URL.createObjectURL(stream);
-	return element;
-}
-
-},{"./MediaStreamTrack":5,"./RTCIceCandidate":8,"./RTCPeerConnection":9,"./RTCSessionDescription":10,"./enumerateDevices":13,"./getUserMedia":14}],17:[function(require,module,exports){
+},{"./MediaStream":3,"./MediaStreamTrack":5,"./RTCIceCandidate":8,"./RTCPeerConnection":9,"./RTCSessionDescription":10,"./enumerateDevices":13,"./getUserMedia":14,"./videoElementsHandler":16,"cordova/exec":undefined,"debug":19,"domready":21}],16:[function(_dereq_,module,exports){
 (function (global){
 /**
  * Expose a function that must be called when the library is loaded.
@@ -2607,8 +2559,9 @@ module.exports.observeVideo = observeVideo;
 /**
  * Dependencies.
  */
-var debug = require('debug')('iosrtc:videoElementsHandler'),
-	MediaStreamRenderer = require('./MediaStreamRenderer'),
+var
+	debug = _dereq_('debug')('iosrtc:videoElementsHandler'),
+	MediaStreamRenderer = _dereq_('./MediaStreamRenderer'),
 
 
 /**
@@ -2633,8 +2586,7 @@ var debug = require('debug')('iosrtc:videoElementsHandler'),
 
 	// Video element mutation observer.
 	videoObserver = new MutationObserver(function (mutations) {
-		var i, numMutations, mutation,
-			video;
+		var i, numMutations, mutation, video;
 
 		for (i = 0, numMutations = mutations.length; i < numMutations; i++) {
 			mutation = mutations[i];
@@ -2642,8 +2594,8 @@ var debug = require('debug')('iosrtc:videoElementsHandler'),
 			// HTML video element.
 			video = mutation.target;
 
-			// .src removed.
-			if (!video.src) {
+			// .src or .srcObject removed.
+			if (!video.src && !video.srcObject) {
 				// If this video element was previously handling a MediaStreamRenderer, release it.
 				releaseMediaStreamRenderer(video);
 				continue;
@@ -2655,7 +2607,8 @@ var debug = require('debug')('iosrtc:videoElementsHandler'),
 
 	// DOM mutation observer.
 	domObserver = new MutationObserver(function (mutations) {
-		var i, numMutations, mutation,
+		var
+			i, numMutations, mutation,
 			j, numNodes, node;
 
 		for (i = 0, numMutations = mutations.length; i < numMutations; i++) {
@@ -2725,9 +2678,9 @@ var debug = require('debug')('iosrtc:videoElementsHandler'),
 
 
 function videoElementsHandler(_mediaStreams, _mediaStreamRenderers) {
-	var existingVideos = document.querySelectorAll('video'),
-		i, len,
-		video;
+	var
+		existingVideos = document.querySelectorAll('video'),
+		i, len, video;
 
 	mediaStreams = _mediaStreams;
 	mediaStreamRenderers = _mediaStreamRenderers;
@@ -2767,9 +2720,9 @@ function videoElementsHandler(_mediaStreams, _mediaStreamRenderers) {
 function observeVideo(video) {
 	debug('observeVideo()');
 
-	// If the video already has a src property but is not yet handled by the plugin
+	// If the video already has a src/srcObject property but is not yet handled by the plugin
 	// then handle it now.
-	if (video.src && !video._iosrtcMediaStreamRendererId) {
+	if ((video.src || video.srcObject) && !video._iosrtcMediaStreamRendererId) {
 		handleVideo(video);
 	}
 
@@ -2792,8 +2745,7 @@ function observeVideo(video) {
 		characterDataOldValue: false,
 		// Set to an array of attribute local names (without namespace) if not all attribute mutations
 		// need to be observed.
-		// TODO: Add srcObject, mozSrcObject
-		attributeFilter: ['src']
+		attributeFilter: ['src', 'srcObject']
 	});
 
 	// Intercept video 'error' events if it's due to the attached MediaStream.
@@ -2812,49 +2764,69 @@ function observeVideo(video) {
  */
 
 function handleVideo(video) {
-	var xhr = new XMLHttpRequest();
+	var
+		xhr = new XMLHttpRequest(),
+		stream;
 
-	xhr.open('GET', video.src, true);
-	xhr.responseType = 'blob';
-	xhr.onload = function () {
-		if (xhr.status !== 200) {
-			// If this video element was previously handling a MediaStreamRenderer, release it.
-			releaseMediaStreamRenderer(video);
-
-			return;
-		}
-
-		var reader = new FileReader();
-
-		// Some versions of Safari fail to set onloadend property, some others do not react
-		// on 'loadend' event. Try everything here.
-		try {
-			reader.onloadend = onloadend;
-		} catch (error) {
-			reader.addEventListener('loadend', onloadend);
-		}
-		reader.readAsText(xhr.response);
-
-		function onloadend() {
-			var mediaStreamBlobId = reader.result;
-
-			// The retrieved URL does not point to a MediaStream.
-			if (!mediaStreamBlobId || typeof mediaStreamBlobId !== 'string' || !MEDIASTREAM_ID_REGEXP.test(mediaStreamBlobId)) {
+	// The app has set video.src.
+	if (video.src) {
+		xhr.open('GET', video.src, true);
+		xhr.responseType = 'blob';
+		xhr.onload = function () {
+			if (xhr.status !== 200) {
 				// If this video element was previously handling a MediaStreamRenderer, release it.
 				releaseMediaStreamRenderer(video);
 
 				return;
 			}
 
-			provideMediaStreamRenderer(video, mediaStreamBlobId);
+			var reader = new FileReader();
+
+			// Some versions of Safari fail to set onloadend property, some others do not react
+			// on 'loadend' event. Try everything here.
+			try {
+				reader.onloadend = onloadend;
+			} catch (error) {
+				reader.addEventListener('loadend', onloadend);
+			}
+			reader.readAsText(xhr.response);
+
+			function onloadend() {
+				var mediaStreamBlobId = reader.result;
+
+				// The retrieved URL does not point to a MediaStream.
+				if (!mediaStreamBlobId || typeof mediaStreamBlobId !== 'string' || !MEDIASTREAM_ID_REGEXP.test(mediaStreamBlobId)) {
+					// If this video element was previously handling a MediaStreamRenderer, release it.
+					releaseMediaStreamRenderer(video);
+
+					return;
+				}
+
+				provideMediaStreamRenderer(video, mediaStreamBlobId);
+			}
+		};
+		xhr.send();
+	}
+
+	// The app has set video.srcObject.
+	else if (video.srcObject) {
+		stream = video.srcObject;
+
+		if (!stream.getBlobId()) {
+			// If this video element was previously handling a MediaStreamRenderer, release it.
+			releaseMediaStreamRenderer(video);
+
+			return;
 		}
-	};
-	xhr.send();
+
+		provideMediaStreamRenderer(video, stream.getBlobId());
+	}
 }
 
 
 function provideMediaStreamRenderer(video, mediaStreamBlobId) {
-	var mediaStream = mediaStreams[mediaStreamBlobId],
+	var
+		mediaStream = mediaStreams[mediaStreamBlobId],
 		mediaStreamRenderer = mediaStreamRenderers[video._iosrtcMediaStreamRendererId];
 
 	if (!mediaStream) {
@@ -2932,7 +2904,7 @@ function releaseMediaStreamRenderer(video) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./MediaStreamRenderer":4,"debug":20}],18:[function(require,module,exports){
+},{"./MediaStreamRenderer":4,"debug":19}],17:[function(_dereq_,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -3114,7 +3086,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(_dereq_,module,exports){
 /**
  * Helpers.
  */
@@ -3133,7 +3105,7 @@ var y = d * 365.25
  *  - `long` verbose formatting [false]
  *
  * @param {String|Number} val
- * @param {Object} options
+ * @param {Object} [options]
  * @throws {Error} throw an error if val is not a non-empty string or a number
  * @return {String|Number}
  * @api public
@@ -3265,7 +3237,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's'
 }
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(_dereq_,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -3273,7 +3245,7 @@ function plural(ms, n, name) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = require('./debug');
+exports = module.exports = _dereq_('./debug');
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -3417,14 +3389,17 @@ function save(namespaces) {
  */
 
 function load() {
+  var r;
   try {
-    return exports.storage.debug;
+    r = exports.storage.debug;
   } catch(e) {}
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (typeof process !== 'undefined' && 'env' in process) {
-    return process.env.DEBUG;
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
   }
+
+  return r;
 }
 
 /**
@@ -3450,8 +3425,8 @@ function localstorage() {
   } catch (e) {}
 }
 
-}).call(this,require('_process'))
-},{"./debug":21,"_process":18}],21:[function(require,module,exports){
+}).call(this,_dereq_('_process'))
+},{"./debug":20,"_process":17}],20:[function(_dereq_,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -3460,12 +3435,12 @@ function localstorage() {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = createDebug.debug = createDebug.default = createDebug;
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
 exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = require('ms');
+exports.humanize = _dereq_('ms');
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -3592,7 +3567,10 @@ function createDebug(namespace) {
 function enable(namespaces) {
   exports.save(namespaces);
 
-  var split = (namespaces || '').split(/[\s,]+/);
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
   var len = split.length;
 
   for (var i = 0; i < len; i++) {
@@ -3652,7 +3630,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":19}],22:[function(require,module,exports){
+},{"ms":18}],21:[function(_dereq_,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -3684,7 +3662,7 @@ function coerce(val) {
 
 });
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(_dereq_,module,exports){
 void function(root){
 
   function defaults(options){
@@ -3730,13 +3708,13 @@ void function(root){
   module.exports.defaults = defaults
 }(this)
 
-},{}],24:[function(require,module,exports){
+},{}],23:[function(_dereq_,module,exports){
 module.exports = {
-	EventTarget : require('./lib/EventTarget'),
-	Event       : require('./lib/Event')
+	EventTarget : _dereq_('./lib/EventTarget'),
+	Event       : _dereq_('./lib/Event')
 };
 
-},{"./lib/Event":25,"./lib/EventTarget":26}],25:[function(require,module,exports){
+},{"./lib/Event":24,"./lib/EventTarget":25}],24:[function(_dereq_,module,exports){
 (function (global){
 /**
  * In browsers export the native Event interface.
@@ -3745,7 +3723,7 @@ module.exports = {
 module.exports = global.Event;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],26:[function(require,module,exports){
+},{}],25:[function(_dereq_,module,exports){
 /**
  * Expose the _EventTarget class.
  */
