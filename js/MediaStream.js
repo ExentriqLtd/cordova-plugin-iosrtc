@@ -225,12 +225,14 @@ MediaStream.prototype.stop = function () {
 	for (trackId in this._audioTracks) {
 		if (this._audioTracks.hasOwnProperty(trackId)) {
 			this._audioTracks[trackId].stop();
+			delete this._audioTracks[trackId];
 		}
 	}
 
 	for (trackId in this._videoTracks) {
 		if (this._videoTracks.hasOwnProperty(trackId)) {
 			this._videoTracks[trackId].stop();
+			delete this._videoTracks[trackId];
 		}
 	}
 };

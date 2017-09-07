@@ -785,7 +785,7 @@ function onEvent(data) {
 			event.stream = stream;
 
 			// Append to the remote streams.
-			this.remoteStreams[stream.label] = stream;
+			this.remoteStreams[stream.id] = stream;
 
 			// Emit "connected" on the stream if ICE connected.
 			if (this.iceConnectionState === 'connected' || this.iceConnectionState === 'completed') {

@@ -296,6 +296,7 @@ class iosrtcPlugin : CDVPlugin {
 
 		self.queue.async { [weak pluginRTCPeerConnection, weak pluginMediaStream] in
 			pluginRTCPeerConnection?.removeStream(pluginMediaStream!)
+                        self.pluginMediaStreams[streamId] = nil
 		}
 	}
 
@@ -637,6 +638,7 @@ class iosrtcPlugin : CDVPlugin {
 
 		self.queue.async { [weak pluginMediaStream, weak pluginMediaStreamTrack] in
 			pluginMediaStream?.removeTrack(pluginMediaStreamTrack!)
+                        self.pluginMediaStreamTracks[trackId] = nil
 		}
 	}
 
